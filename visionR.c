@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	vision_N(int color)
+/*void	vision_N(int color)
 {
 	int x;
 	int y;
@@ -117,5 +117,62 @@ void	vision_E(int color)
 			i += 0.1;
 		}
 		angle += (M_PI / 3) / (cub * map_clumns);
+	}
+}*/
+char	haswallat(xplayer, yplayer)
+{
+	int x;
+	int y;
+
+	x = newplayerx / cub;
+	y = newplayery / cub;
+	return (map[y][x]);
+}
+
+void	vision(int color)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	xline = xplayer;
+	yline = yplayer;
+	rotationangle += turndirection * 2 * (M_PI / 180);
+	movestep = walkdirection * 2;
+	newplayerx = xplayer + cos(rotationangle) * movestep;
+	newplayery = yplayer + sin(rotationangle) * movestep;
+	if (haswallat(newplayerx, newplayery) != '1')
+	{
+		xplayer = newplayerx;
+		yplayer = newplayery;
+	}
+	/*if (walkdirection == -1 || walkdirection == 1)
+	{
+		xplayer += cos(rotationangle) * movestep;
+		yplayer += sin(rotationangle) * movestep;
+	}*/
+	/*if (compt == 1)
+	{
+		xplayer = xplayer + cos(rotationangle) * 5;
+		yplayer = yplayer + sin(rotationangle) * 5; 
+	}
+	if (compt == 2)
+	{
+		xplayer = xplayer - cos(rotationangle) * 5;
+		yplayer = yplayer - sin(rotationangle) * 5; 
+	}*/
+		//printf("%f\n",rotationangle);
+	rayangle = rotationangle - fov / 2;
+	for (j = 0; j < num_rays; j++)
+	{
+		for (i = 0; i < 20; i++)
+		{
+			xline = xplayer + cos(rayangle) * i;
+			yline = yplayer + sin(rayangle) * i; 
+			//printf("%f\n",rotationangle);
+			pxl_ptr[xline + yline * (cub * map_clumns)] = color;
+		}
+		rayangle += fov / num_rays;
 	}
 }

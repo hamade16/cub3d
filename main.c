@@ -170,6 +170,8 @@ void  drawcub(int x, int y, int color)
 int found = 0;
 void  map2d()
 {
+	fov = 60 * (M_PI / 180);
+	num_rays = map_clumns;
 	//printf("%d %d", map_rows, map_clumns);
 	for (int i = 0; i < map_rows; i++)
 	{
@@ -190,6 +192,7 @@ void  map2d()
 						xplayer = j * cub;
 						yplayer = i * cub;
 						c = map[i][j];
+						rotationangle = M_PI / 2;
 					//pxl_ptr[xplayer * map_clumns + yplayer] = 0xffb703;
 					
 					
@@ -199,8 +202,9 @@ void  map2d()
 			
 		}
 	}
-	pxl_ptr[xplayer * map_clumns + yplayer] = 0xffb703;
-	if (compt == 0 && c == 'N')
+	//pxl_ptr[xplayer * map_clumns + yplayer] = 0xffb703;
+	vision(0xffb703);
+	/*if (compt == 0 && c == 'N')
 		vision_N(0xffb703);
 	if (compt == 0 && c == 'S')
 		vision_S(0xffb703);
@@ -215,7 +219,7 @@ void  map2d()
 	if (compt == 3)
 		vision_S(0xffb703);
 	if (compt == 4)
-		vision_E(0xffb703);
+		vision_E(0xffb703);*/
 	mlx_put_image_to_window ( mlx_ptr, win_ptr, img_ptr, 0,  0);
 }
 
@@ -224,30 +228,42 @@ int  keypressed(int key)
 	printf("%d\n", key);
 	if (key == 53)
 		exit(0);
-	if (key == 126)
-		compt = 2;
-		//yplayer -= 5;
-	if (key == 125)
-		compt = 1;
-		//yplayer += 5;
 	if (key == 124)
-		compt = 3;
-		//xplayer += 5;
+		turndirection = -1;
 	if (key == 123)
-		compt = 4;
-		//xplayer -= 5;
+		turndirection = 1;
 	if (key == 13)
-		yplayer -= 5;
-	if (key == 0)
-		xplayer -= 5;
+		walkdirection = 1;;
 	if (key == 1)
-		yplayer += 5;
+		walkdirection = -1;
+	/*if (key == 0)
+		compt = 5;
 	if (key == 2)
-		xplayer += 5;
+		compt = 6;*/
 	map2d();
 	return 0;
 }
 
+int  keyReleased(int key)
+{
+	printf("%d\n", key);
+	if (key == 53)
+		exit(0);
+	if (key == 124)
+		turndirection = 0;
+	if (key == 123)
+		turndirection = 0;
+	if (key == 13)
+		walkdirection = 0;;
+	if (key == 1)
+		walkdirection = 0;
+	/*if (key == 0)
+		compt = 5;
+	if (key == 2)
+		compt = 6;*/
+	//map2d();
+	return 0;
+}
 
 int cub3d()
 {
@@ -259,6 +275,7 @@ int cub3d()
 	pxl_ptr = (int *)mlx_get_data_addr(img_ptr, &k, &k, &k);
 	map2d();
 	mlx_hook(win_ptr ,2, (2L<<2), keypressed, (void*)0);
+	mlx_hook(win_ptr ,3, (2L<<2), keyReleased, (void*)0);
 	mlx_loop(mlx_ptr);
 	return 0;
 }

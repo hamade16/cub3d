@@ -27,8 +27,8 @@ void *mlx_ptr;
 void *win_ptr;
 void *img_ptr;
 int *pxl_ptr;
-int xplayer;
-int yplayer;
+float xplayer;
+float yplayer;
 int width;
 int height;
 char **map;
@@ -38,6 +38,18 @@ int fd;
 char *line;
 int compt;
 char c;
+float rotationangle;
+int xline;
+int yline;
+int turndirection;
+int walkdirection;
+int movestep;
+float newplayerx;
+float newplayery;
+float fov;
+float rayangle;
+int num_rays;
+
 //
 #include <stdlib.h>
 #include <string.h>
@@ -72,4 +84,5 @@ void	vision_N(int color);
 void	vision_S(int color);
 void	vision_W(int color);
 void	vision_E(int color);
+void	vision(int color);
 #endif
