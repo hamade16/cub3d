@@ -13,7 +13,6 @@
 
 #ifndef FT_CUB3D_H
 # define FT_CUB3D_H
-# define cub 32
 
 # include <unistd.h>
 # include <stdarg.h>
@@ -21,6 +20,15 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+# include <limits.h>
+# include <mlx.h>
+
+# define FALSE 0
+# define TRUE 1
+# define CUB 64
+# define WIDTH2 = width * CUB
+# define FOV 60 * (M_PI / 180)
+
 
 double angle;
 void *mlx_ptr;
@@ -39,8 +47,8 @@ char *line;
 int compt;
 char c;
 float rotationangle;
-int xline;
-int yline;
+//float xline;
+//float yline;
 int turndirection;
 int walkdirection;
 int movestep;
@@ -49,11 +57,52 @@ float newplayery;
 float fov;
 float rayangle;
 int num_rays;
-
+float xintercept;
+float yintercept;
+float xstep;
+float ystep;
+float israyfacingdown;
+float israyfacingup;
+float israyfacingleft;
+float israyfacingright;
+float wallhitx;
+float wallhity;
+float nexthorzx;
+float nexthorzy;
+char **colorbuffer;
+float distanceprojplane;
+float projectwallheight;
+int wallstripheight;
+int walltoppixel;
+int wallbottompixel;
+float perpdistance;
+float walkspeed;
+float turnspeed;
 //
 #include <stdlib.h>
 #include <string.h>
 //
+typedef struct s_point
+{
+    float x;
+    float y;
+}               t_point;
+
+typedef struct s_rays
+{
+    float rayAngle;
+    float wallHitX;
+    float wallHitY;
+    float distance;
+    int wasHitVertical;
+    int isRayFacingUp;
+    int isRayFacingDown;
+    int isRayFacingLeft;
+    int isRayFacingRight;
+    int wallHitContent;
+}               t_rays;
+
+
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
 int	ft_atoi(const char *str);
@@ -84,5 +133,18 @@ void	vision_N(int color);
 void	vision_S(int color);
 void	vision_W(int color);
 void	vision_E(int color);
-void	vision(int color);
+void	vision();
+void	H_intersection(int color);
+void    castAllRays();
+void    castRay(t_rays *rays, int stripId);
+float       normalized_angle(float angle);
+float       distancebetweenpoints(float x1, float y1, float x2, float y2);
+void	drw_line(float x, float y, int color);
+void            my_mlx_pixel_put(int x, int y, int color, void *img);
+void		render();
+int    haswallat(float newplayerx, float newplayery);
+void setup();
+void    draw_line(float x_one,float y_one,float x_zero,float y_zero);
+t_rays      *rays;
+
 #endif
