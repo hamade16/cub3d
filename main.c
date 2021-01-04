@@ -120,7 +120,7 @@ void	map_file()
 	ft_check_zero(map);
 }
 
-void  drawcub(int x, int y, int color)
+void  drawcub(float x, float y, int color)
 {
 	for (int i = x; i < x + CUB; i++)
 	{
@@ -133,10 +133,33 @@ void  drawcub(int x, int y, int color)
 }
 
 int found = 0;
+void	player_p()
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map_rows)
+	{
+		j = 0;
+		while (j < map_clumns)
+		{
+			if (map[i][j] == 'N')
+			{
+				xplayer = j * CUB;
+				yplayer = i * CUB;
+				break;
+				j++;
+			}
+			i++;
+		}
+	
+	}
+}
 void  map2d()
 {
 	int x;
-
+	float scale = 0.2;
 	//setup();
 	fov = 60 * (M_PI / 180);
 	num_rays = width;
@@ -148,23 +171,23 @@ void  map2d()
 				
 			if (map[i][j] != ' ')
 			{
-					drawcub((i * CUB), (j * CUB), 0xffffff);
+					drawcub((i * CUB) * scale, (j * CUB) * scale, 0xffffff);
 
 				if (map[i][j] == '1')
 				{
-					drawcub((i * CUB), (j * CUB), 0xFF0000);
+					drawcub((i * CUB) * scale, (j * CUB) * scale, 0xFF0000);
 				}
-				if ((map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S' || map[i][j] == 'E') && !found)
-				{
-						found = 1;
-						xplayer = j * CUB + CUB / 2;
-						yplayer = i * CUB + CUB / 2;
-						//c = map[i][j];
-						//rotationangle = M_PI / 2;
-					//pxl_ptr[xplayer * map_clumns + yplayer] = 0xffb703;
+				// if ((map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S' || map[i][j] == 'E') && !found)
+				// {
+				// 		found = 1;
+				// 		xplayer = j * CUB + CUB / 2;
+				// 		yplayer = i * CUB + CUB / 2;
+				// 		//c = map[i][j];
+				// 		rotationangle = 0;
+				// 	//pxl_ptr[xplayer * map_clumns + yplayer] = 0xffb703;
 					
 					
-				}
+				// }
 			}
 			
 			
@@ -200,9 +223,9 @@ int  keypressed(int key)
 	if (key == 53)
 		exit(0);
 	if (key == 124)
-		turndirection = -1;
-	if (key == 123)
 		turndirection = 1;
+	if (key == 123)
+		turndirection = -1;
 	if (key == 13)
 		walkdirection = 1;;
 	if (key == 1)
@@ -241,37 +264,47 @@ void		render_3d(t_rays *rays)
 	int i;
 	int j;
 
-	i = 0;
-	while (i < num_rays)
+	i = -1;
+	distanceprojplane = ((width / 2) / tan(FOV / 2));
+	while (++i < width)
 	{
 		perpdistance = rays[i].distance * cos(rays[i].rayAngle - rotationangle);
-		distanceprojplane = (width / 2) / tan(fov / 2);
-		projectwallheight = (cub / perpdistance) * distanceprojplane;
+		projectwallheight = (CUB / perpdistance) * distanceprojplane;
 		wallstripheight = (int)projectwallheight;
-		walltoppixel = (width / 2) - (wallstripheight / 2);
+		walltoppixel = (height / 2) - (wallstripheight / 2);
+		//printf(" to |%f \n", wallstripheight);
 		walltoppixel = walltoppixel < 0 ? 0 : walltoppixel;
-		wallbottompixel = (width / 2) + (wallstripheight / 2);
+		wallbottompixel = (height / 2) + (wallstripheight / 2);
 		wallbottompixel = wallbottompixel > height ? height : wallbottompixel;
-		j = 0;
-		while (j < walltoppixel)
-		{
-			//printf ("%d", width);
-			my_mlx_pixel_put(j, i, 0x00ffff, img_ptr);
-			j++;
+		j = -1;
+        while (++j < height)
+        {
+            if (j < walltoppixel)
+                my_mlx_pixel_put(i, j, 0xFFFFFF, img_ptr);
+            else if (j >= walltoppixel && j <= wallbottompixel)
+            {
+                my_mlx_pixel_put(i, j, 0x00FF00, img_ptr);
+            }
+            else if (j > wallbottompixel)
+                my_mlx_pixel_put(i, j, 0xFF0000, img_ptr);
 		}
-		while (j < wallbottompixel)
-		{
-			
-			my_mlx_pixel_put(j, i, 0xff9900, img_ptr);
-			j++;
-		}
-		while (j < height)
-		{
-			my_mlx_pixel_put(j, i, 0xaaaaaa, img_ptr);
-			j++;
-		}
-		i++;
 	}
+}
+
+void        square(int x, int y, float width, int color)
+{
+    int     i;
+    int     j;
+
+    i = -1;
+    while (++i < width)
+    {
+        j = -1;
+        while (++j < width)
+        {
+            my_mlx_pixel_put((x + j), (y + i), color, img_ptr);
+        }
+    }
 }
 
 void		render()
@@ -284,15 +317,19 @@ void		render()
 	// 	}
 	// }
 	int k;
+	t_rays rays[width];
+	mlx_clear_window(mlx_ptr, win_ptr);
+	// pxl_ptr = (int *)mlx_get_data_addr(img_ptr, &k, &k, &k);
 
-	img_ptr = mlx_new_image(mlx_ptr, map_clumns * CUB, map_rows * CUB);
-	pxl_ptr = (int *)mlx_get_data_addr(img_ptr, &k, &k, &k);
-
-	map2d();
-	castAllRays();
+	//player_p();
 	//printf("%f\n",rotationangle);
-	//render_3d(rays);
-	mlx_put_image_to_window ( mlx_ptr, win_ptr, img_ptr, 0,  0);
+	vision();
+	castAllRays(rays, 0);
+	render_3d(rays);
+	map2d();
+	square(xplayer * 0.2, yplayer * 0.2, 10 * 0.2, 0xFF0000);
+	castAllRays(rays, 1);
+	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0,  0);
 }
 /*
 int         moove()
@@ -309,7 +346,8 @@ int cub3d()
 
 	setup();
 	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, map_clumns * CUB, map_rows * CUB, "cub3d");
+	win_ptr = mlx_new_window(mlx_ptr, width, height, "cub3d");
+	img_ptr = mlx_new_image(mlx_ptr, width, height);
 	render();
 	//map2d();
 	//mlx_loop_hook(mlx_ptr, moove, (void*)0);

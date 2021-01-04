@@ -68,7 +68,7 @@ void castRay(t_rays *rays, int i)
 
     // Increment xstep and ystep until we find a wall
     //printf("a %f\n",nextHorzTouchX);
-    while ((nextHorzTouchX > 0) && (nextHorzTouchX < (map_clumns * CUB)) && (nextHorzTouchY > 0) && (nextHorzTouchY < (map_rows * CUB))) {
+    while ((nextHorzTouchX >= 0) && (nextHorzTouchX < (map_clumns * CUB)) && (nextHorzTouchY >= 0) && (nextHorzTouchY < (map_rows * CUB))) {
 
         xToCheck = nextHorzTouchX;
         yToCheck = nextHorzTouchY + (isRayFacingUp ? -1 : 0);
@@ -76,8 +76,8 @@ void castRay(t_rays *rays, int i)
             // found a wall hit
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
-            if (xToCheck < 0 || xToCheck >= map_clumns * CUB || yToCheck < 0 || yToCheck >= map_rows * CUB)
-		        return ;
+           // if (xToCheck < 0 || xToCheck >= map_clumns * CUB || yToCheck < 0 || yToCheck >= map_rows * CUB)
+		    //    return ;
             int index_x = (int)floor(xToCheck / CUB);
             int index_y = (int)floor(yToCheck / CUB);
             horzWallContent = map[index_y][index_x];
@@ -86,6 +86,7 @@ void castRay(t_rays *rays, int i)
         }
         else
         {
+           // printf("H %f\n", xstep);
             nextHorzTouchX += xstep;
             nextHorzTouchY += ystep;
         }
@@ -123,17 +124,17 @@ void castRay(t_rays *rays, int i)
     float nextVertTouchY = yintercept;
 
     // Increment xstep and ystep until we find a wall
-    while (nextVertTouchX >= 0 && nextVertTouchX <= map_clumns * CUB && nextVertTouchY >= 0 && nextVertTouchY <= map_rows * CUB) {
-        float xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);
-        float yToCheck = nextVertTouchY;
+    while (nextVertTouchX >= 0 && nextVertTouchX < map_clumns * CUB && nextVertTouchY >= 0 && nextVertTouchY < map_rows * CUB) {
+        xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);
+        yToCheck = nextVertTouchY;
         // printf("xtocheck = %f | ytocheck == %f\n", xToCheck, yToCheck);
         
         if (haswallat(xToCheck, yToCheck)) {
             // found a wall hit
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
-            if (xToCheck <= 0 || xToCheck > map_clumns * CUB || yToCheck <= 0 || yToCheck > map_rows * CUB)
-		        return ;
+           // if (xToCheck <= 0 || xToCheck > map_clumns * CUB || yToCheck <= 0 || yToCheck > map_rows * CUB)
+		    //    return ;
             int index_x = (int)floor(xToCheck / CUB);
             int index_y = (int)floor(yToCheck / CUB);
 
@@ -143,6 +144,8 @@ void castRay(t_rays *rays, int i)
         }
         else
         {
+           // printf("V %f\n", xstep);
+
             nextVertTouchX += xstep;
             nextVertTouchY += ystep;
         }
@@ -175,22 +178,20 @@ void castRay(t_rays *rays, int i)
     rays[i].isRayFacingRight = isRayFacingRight;
 }
 
-void castAllRays()
+void castAllRays(t_rays *rays, int draw)
 {
-    t_rays      rays[map_clumns * CUB];
-    
-    vision();
-    rayangle = rotationangle - (fov / 2);
-    //printf("%d\n", width);
-    for (int i = 0; i < (map_clumns * CUB); i++)
+
+
+    rayangle = rotationangle - (FOV / 2);
+    for (int i = 0; i < width; i++)
     {
-        // printf("mac cols == %d | i == %d\n", map_clumns, i);
         //vision();
-        castRay(rays, i);
-        //printf("%f\n",rays[i].wallHitX);
-        draw_line(rays[i].wallHitX,rays[i].wallHitY,xplayer,yplayer);
+        if (!draw)
+            castRay(rays, i);
+        else
+            draw_line(rays[i].wallHitX,rays[i].wallHitY,xplayer,yplayer);
         //drw_line(rays[i].wallHitX, rays[i].wallHitY, 0xffb703);
-        rayangle += fov / (map_clumns * CUB);
+        rayangle += FOV / (width);
     }
     //printf("%f\n", rayangle);
 }

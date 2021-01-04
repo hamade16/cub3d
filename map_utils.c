@@ -47,6 +47,12 @@ void  ft_check_zero(char **mat)
 		{
 			if(mat[i][j] == '0' || mat[i][j] == '2' || mat[i][j] == 'N')
 			{
+				if (mat[i][j] == 'N')
+				{
+					xplayer = j * CUB + (CUB / 2);
+					yplayer = i * CUB + (CUB / 2);
+					rotationangle = M_PI / 2;
+				}
 				if (i == map_rows - 1 || i == 0  || j == map_clumns - 1 || j  == 0)
 					ft_err("map_error1");
 				if (mat[i + 1][j] == ' ' || mat[i - 1][j] == ' ' || mat[i][j + 1] == ' ' || mat[i][j - 1] == ' ')

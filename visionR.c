@@ -18,9 +18,9 @@ void setup()
     //yplayer = height / 2;
     turndirection = 0;
     walkdirection = 0;
-    rotationangle = M_PI / 2; //PI / 2;
-    walkspeed = CUB / 10;
-    turnspeed = 2 * (M_PI / 180);
+    // rotationangle = M_PI / 2; //PI / 2;
+    walkspeed = CUB / 6;
+    turnspeed = 4 * (M_PI / 180);
    // g_key.move_forward_or_backward = 0;
 }
 /*void	vision_N(int color)
@@ -162,7 +162,7 @@ void	vision()
 	//rotationangle = normalized_angle(rotationangle);
 	rotationangle += turndirection * turnspeed;
 	rotationangle = normalized_angle(rotationangle);
-	movestep = walkdirection * 3;
+	movestep = walkdirection * walkspeed;
 	if (walkdirection == 1 || walkdirection == -1)
 	{
 		newplayerx = xplayer + cos(rotationangle) * movestep;

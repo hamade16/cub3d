@@ -7,7 +7,7 @@ OBJECT = main.o ft_atoi.o get_next_line.o get_next_line_utils.o map_utils.o ft_p
 all : $(NAME)
 
 $(NAME):
-		@cc -fsanitize=address -g -I /Users/houbeid/Desktop/test $(SRC) -D BUFFER_SIZE=1 -L /Users/houbeid/Desktop/test -lmlx -framework OpenGL -framework AppKit -lz -g3 -o  Cub3D
+		@cc  -g -I /Users/houbeid/Desktop/test $(SRC) -D BUFFER_SIZE=1 -L /Users/houbeid/Desktop/test -lmlx -framework OpenGL -framework AppKit -lz -g3 -o  Cub3D
 
 clean:
 	@rm -rf $(OBJECT)

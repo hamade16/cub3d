@@ -31,7 +31,7 @@ void    draw_line(float x_one,float y_one,float x_zero,float y_zero)
     y_inc = dy / steps;
     while (i < steps)
     {        
-        my_mlx_pixel_put(x_zero,y_zero,0x0000FF,img_ptr);
+        my_mlx_pixel_put(x_zero * 0.2,y_zero * 0.2,0x0000FF,img_ptr);
         x_zero += x_inc;
         y_zero  += y_inc;
         //printf("%f\n",y);
@@ -45,10 +45,10 @@ void            my_mlx_pixel_put(int x,int y, int color, void *img)
 {
     int     me;
 	int *tmp;
-    if (x < 0 || x >= map_clumns * CUB || y < 0 || y >= map_rows * CUB)
-		return ;
+    // if (x < 0 || x >= map_clumns * CUB || y < 0 || y >= map_rows * CUB)
+	// 	return ;
     tmp = (int*)mlx_get_data_addr(img, &me, &me, &me);
-    tmp[x + (y * map_clumns * CUB)] = color;
+    tmp[x + (y * width)] = color;
 }
 
 void	drw_line(float x, float y, int color)
