@@ -12,6 +12,10 @@ void	map_file()
 	char **s;
 	int a;
 	int r;
+	int b;
+	int c;
+	int d;
+	int e;
 
 	r = 0;
 	i = 0;
@@ -19,9 +23,12 @@ void	map_file()
 	mp = ft_strdup("\0");
 	map_clumns = 0;
 	map_rows = 1;
-	a = 0;
 	compt = 0;
 	
+	// while (get_next_line(fd, line))
+	// {
+		
+	// }
 	while (get_next_line(fd, &line))
 	{
 		a = check_identfierR(line);
@@ -259,10 +266,22 @@ int  keyReleased(int key)
 	return 0;
 }
 
+void	draw_txtur(t_txt *txt)
+{
+	int tmp;
+	void *img_txt;
+	int me;
+
+	img_txt = (char *)mlx_xpm_file_to_image(mlx_ptr, "./floor_1.xpm", &txt->txt_width, &txt->txt_height);
+	tmp = (int*)mlx_get_data_addr(img_txt, &me, &me, &me);
+
+}
+
 void		render_3d(t_rays *rays)
 {
 	int i;
 	int j;
+	t_txt txt;
 
 	i = -1;
 	distanceprojplane = ((width / 2) / tan(FOV / 2));
@@ -276,6 +295,10 @@ void		render_3d(t_rays *rays)
 		walltoppixel = walltoppixel < 0 ? 0 : walltoppixel;
 		wallbottompixel = (height / 2) + (wallstripheight / 2);
 		wallbottompixel = wallbottompixel > height ? height : wallbottompixel;
+		// if (rays[i].wasHitVertical)
+		// 	texturoffsetX = (int)rays[i].wallHitY / CUB;
+		// else 
+		// 	texturoffsetX = (int)rays[i].wallHitX / CUB;
 		j = -1;
         while (++j < height)
         {
@@ -283,7 +306,9 @@ void		render_3d(t_rays *rays)
                 my_mlx_pixel_put(i, j, 0xFFFFFF, img_ptr);
             else if (j >= walltoppixel && j <= wallbottompixel)
             {
-                my_mlx_pixel_put(i, j, 0x00FF00, img_ptr);
+				 texturoffsetY = (j - walltoppixel) * ((float)txt.txt_height / wallstripheight);
+
+                //my_mlx_pixel_put(i, j, , img_ptr);
             }
             else if (j > wallbottompixel)
                 my_mlx_pixel_put(i, j, 0xFF0000, img_ptr);

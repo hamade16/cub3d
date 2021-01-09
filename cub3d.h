@@ -78,6 +78,12 @@ float wallbottompixel;
 float perpdistance;
 float walkspeed;
 float turnspeed;
+char    t_north;
+char    t_south;
+char    t_west;
+char    t_east;
+int     texturoffsetX;
+int     texturoffsetY;
 //
 #include <stdlib.h>
 #include <string.h>
@@ -102,6 +108,13 @@ typedef struct s_rays
     int wallHitContent;
 }               t_rays;
 
+typedef struct  s_txt
+{
+
+    int         txt_width;
+    int         txt_height;
+    float       data;
+}               t_txt;
 
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
