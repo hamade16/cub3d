@@ -82,8 +82,9 @@ char    t_north;
 char    t_south;
 char    t_west;
 char    t_east;
-int     texturoffsetX;
-int     texturoffsetY;
+float     texturoffsetX;
+float     texturoffsetY;
+float       distancefromtop;
 //
 #include <stdlib.h>
 #include <string.h>
@@ -159,5 +160,6 @@ int    haswallat(float newplayerx, float newplayery);
 void setup();
 void    draw_line(float x_one,float y_one,float x_zero,float y_zero);
 t_rays      *rays;
+int	draw_txtur(	int *tmp,int txt_width);
 
 #endif
