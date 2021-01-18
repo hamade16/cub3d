@@ -86,16 +86,10 @@ void castRay(t_rays *rays, int i)
         }
         else
         {
-           // printf("H %f\n", xstep);
             nextHorzTouchX += xstep;
             nextHorzTouchY += ystep;
         }
     }
-            //printf("xtocheck %f\n",xToCheck);
-
-        //printf("b %f\n",nextHorzTouchX);
-        //printf("b %f\n",horzWallHitX);
-
 
     ///////////////////////////////////////////
     // VERTICAL RAY-GRID INTERSECTION CODE
@@ -180,18 +174,13 @@ void castRay(t_rays *rays, int i)
 
 void castAllRays(t_rays *rays, int draw)
 {
-
-
     rayangle = rotationangle - (FOV / 2);
     for (int i = 0; i < width; i++)
     {
-        //vision();
         if (!draw)
             castRay(rays, i);
         else
             draw_line(rays[i].wallHitX,rays[i].wallHitY,xplayer,yplayer);
-        //drw_line(rays[i].wallHitX, rays[i].wallHitY, 0xffb703);
         rayangle += FOV / (width);
     }
-    //printf("%f\n", rayangle);
 }

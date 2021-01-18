@@ -78,13 +78,10 @@ float wallbottompixel;
 float perpdistance;
 float walkspeed;
 float turnspeed;
-char    t_north;
-char    t_south;
-char    t_west;
-char    t_east;
 float     texturoffsetX;
 float     texturoffsetY;
 float       distancefromtop;
+void        *g_freetmp;
 //
 #include <stdlib.h>
 #include <string.h>
@@ -109,6 +106,15 @@ typedef struct s_rays
     int wallHitContent;
 }               t_rays;
 
+struct          s_texture
+{
+    char        no_img;
+    char        so_img;
+    char        we_img;
+    char        ea_img;
+    int         color;
+}               t_tex;
+
 typedef struct  s_txt
 {
 
@@ -116,6 +122,25 @@ typedef struct  s_txt
     int         txt_height;
     float       data;
 }               t_txt;
+
+struct          s_sprite
+{
+        char    *sp_file;
+        char    *sp_file1;
+}               t_sprt;
+
+struct          s_map 
+{
+    int         colf;
+    int         colc;
+}               t_map;
+
+struct          s_player 
+{
+    char        dir;
+    float       ang;
+}               t_player;
+
 
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
@@ -153,13 +178,36 @@ void castAllRays(t_rays *rays, int draw);
 void    castRay(t_rays *rays, int stripId);
 float       normalized_angle(float angle);
 float       distancebetweenpoints(float x1, float y1, float x2, float y2);
-void	drw_line(float x, float y, int color);
-void            my_mlx_pixel_put(int x, int y, int color, void *img);
+void        drw_line(float x, float y, int color);
+void        my_mlx_pixel_put(int x, int y, int color, void *img);
 void		render();
-int    haswallat(float newplayerx, float newplayery);
-void setup();
-void    draw_line(float x_one,float y_one,float x_zero,float y_zero);
+int         haswallat(float newplayerx, float newplayery);
+void        setup2();
+void        draw_line(float x_one,float y_one,float x_zero,float y_zero);
 t_rays      *rays;
-int	draw_txtur(	int *tmp,int txt_width);
-
+int	        draw_txtur(	int *tmp,int txt_width);
+int			setup(char *cubfile);
+static char	**chkparams(char **pr);
+static int	set_resolution(char **params);
+static int	set_colors(char fp, char **params);
+static int	set_texprite(char **params);
+int		    validfile(char *file, char *ext);
+int		    throwerror(char *error);
+char	    *ft_resps(char *str, char c, short o);
+char	    *clearspc(char *str);
+int	        checkforin(int c, char *str);
+int	        retfree(char *tmp1, char *tmp2, int ret);
+int	        retfreetwo(char **tmp1, int ret);
+int	        ft_lentwop(char **s);
+int	        rgbtoint(int r, int g, int b);
+int	        ft_isnumber(char *s);
+int	        ft_isnbrcol(char *s);
+int	        ft_isdigit(int c);
+int	        ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	    ft_lenfrom(int c, char *s);
+static void	set_player(char dir, float x, float y);
+int			checkmap(int lenx, int leny);
+static int	addlinemap(int index, char *line, int lenx, int leny);
+static int	mapsets(char *cubfile, int lenx, int leny);
+int			set_map(char *cubfile, int fd, char *line);
 #endif

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
+/*
 void  ft_err(char *s)
 {
 	ft_putstr("Error\n");
@@ -83,4 +83,4 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
-}
+}*/
