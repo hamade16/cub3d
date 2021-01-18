@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlabrayj <mlabrayj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: houbeid <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/10 09:31:21 by mlabrayj          #+#    #+#             */
-/*   Updated: 2021/01/10 09:31:24 by mlabrayj         ###   ########.fr       */
+/*   Created: 2019/10/17 13:59:31 by houbeid           #+#    #+#             */
+/*   Updated: 2019/10/23 20:24:46 by houbeid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strdup(const char *src)
 {
-	size_t len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
-
-size_t	ft_lenfrom(int c, char *s)
-{
-	size_t	len;
+	char	*dst;
+	int		len;
 	int		i;
 
 	i = 0;
 	len = 0;
-	while (s[i] != '\0')
+	while (src[len])
+		len++;
+	dst = (char*)malloc(sizeof(*dst) * (len + 1));
+	if (!dst)
+		return (NULL);
+	while (i < len)
 	{
-		if (s[i] == c)
-			len++;
+		dst[i] = src[i];
 		i++;
 	}
-	return (len);
+	dst[i] = '\0';
+	return (dst);
 }

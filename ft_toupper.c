@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlabrayj <mlabrayj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: houbeid <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/10 09:31:21 by mlabrayj          #+#    #+#             */
-/*   Updated: 2021/01/10 09:31:24 by mlabrayj         ###   ########.fr       */
+/*   Created: 2019/10/14 18:51:26 by houbeid           #+#    #+#             */
+/*   Updated: 2019/10/23 20:35:04 by houbeid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_toupper(int c)
 {
-	size_t len;
+	int i;
 
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
-
-size_t	ft_lenfrom(int c, char *s)
-{
-	size_t	len;
-	int		i;
-
-	i = 0;
-	len = 0;
-	while (s[i] != '\0')
+	if (c >= 97 && c <= 122)
 	{
-		if (s[i] == c)
-			len++;
-		i++;
+		i = c - 32;
+		return (i);
 	}
-	return (len);
+	return (c);
 }

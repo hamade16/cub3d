@@ -108,10 +108,10 @@ typedef struct s_rays
 
 struct          s_texture
 {
-    char        no_img;
-    char        so_img;
-    char        we_img;
-    char        ea_img;
+    char        *no_img;
+    char        *so_img;
+    char        *we_img;
+    char        *ea_img;
     int         color;
 }               t_tex;
 
@@ -210,4 +210,7 @@ int			checkmap(int lenx, int leny);
 static int	addlinemap(int index, char *line, int lenx, int leny);
 static int	mapsets(char *cubfile, int lenx, int leny);
 int			set_map(char *cubfile, int fd, char *line);
+char        *ft_strdup(const char *src);
+char	    *ft_strtrim(char const *s1, char const *set);
+int         ft_toupper(int c);
 #endif
