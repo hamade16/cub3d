@@ -53,8 +53,8 @@ int			checkmap(int lenx, int leny)
 				return (throwerror("Map Invalid"));
 			if (checkforin(map[y][x], "WESN"))
 				set_player(map[y][x], x, y);
-			if (map[y][x] == '2' || map[y][x] == '3')
-				set_sprite(x, y);
+			/*if (map[y][x] == '2' || map[y][x] == '3')
+				set_sprite(x, y);*/
 		}
 	}
 	return (1);

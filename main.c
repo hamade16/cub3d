@@ -1,11 +1,11 @@
 #include "cub3d.h"
 #include "mlx.h"
 
-void  drawcub(float x, float y, int color)
+void  drawcub(float x, float y, int width, int height, int color)
 {
-	for (int i = x; i < x + CUB; i++)
+	for (int i = x; i < x + width; i++)
 	{
-		for (int j = y; j < y + CUB; j++)
+		for (int j = y; j < y + height; j++)
 		{
 			my_mlx_pixel_put(j, i, color, img_ptr);
 		}
@@ -13,7 +13,7 @@ void  drawcub(float x, float y, int color)
 }
 
 int found = 0;
-void	player_p()
+/*void	player_p()
 {
 	int i;
 	int j;
@@ -35,7 +35,8 @@ void	player_p()
 		}
 	
 	}
-}
+}*/
+
 void  map2d()
 {
 	int x;
@@ -45,21 +46,23 @@ void  map2d()
 	num_rays = width;
 	for (int i = 0; i < map_rows; i++)
 	{
-		for (int j = 0; j < ft_strlen(map[i]); j++)
+		for (int j = 0; j < map_clumns; j++)
 		{
-				
-			if (map[i][j] != ' ')
-			{
-					drawcub((i * CUB) * scale, (j * CUB) * scale, 0xffffff);
-
-				if (map[i][j] == '1')
-				{
-					drawcub((i * CUB) * scale, (j * CUB) * scale, 0xFF0000);
-				}
-			}
+			// write(1, &map[i][j], 1);
+			// if (map[i][j] != ' ')
+			// {
+				if (map[i][j] != ' ' && map[i][j] != '1' && map[i][j] != '2')
+					drawcub((i * CUB) * scale, (j * CUB) * scale, CUB * scale, CUB * scale, 0xffffff);
+				else if (map[i][j] == '1')
+					drawcub((i * CUB) * scale, (j * CUB) * scale, CUB * scale, CUB * scale, 0xFF0000);
+				else if (map[i][j] == '2')
+					drawcub((i * CUB) * scale, (j * CUB) * scale, CUB * scale, CUB * scale, 0xFF00FF);
+			// }
 			
 			
 		}
+			// write(1, "\n", 1);
+
 	}
 }
 
@@ -206,9 +209,18 @@ int cub3d()
 int main(int argc, char *argv[])
 {
 
-	
-	fd = open(argv[1], O_RDONLY); 
-	map_file();
+	int i;
+
+	i = 0;
+	//fd = open(argv[1], O_RDONLY); 
+	//map_file();
+	setup(argv[1]);
+	// while (map[i])
+	// {
+	// 	printf("%s|\n", map[i]);
+	// 	i++;
+	// }
+	//printf("%f | %f", xplayer, yplayer);
 	cub3d();
 	
 }

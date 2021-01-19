@@ -76,8 +76,8 @@ void castRay(t_rays *rays, int i)
             // found a wall hit
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
-           // if (xToCheck < 0 || xToCheck >= map_clumns * CUB || yToCheck < 0 || yToCheck >= map_rows * CUB)
-		    //    return ;
+           if (xToCheck < 0 || xToCheck >= map_clumns * CUB || yToCheck < 0 || yToCheck >= map_rows * CUB)
+		       return ;
             int index_x = (int)floor(xToCheck / CUB);
             int index_y = (int)floor(yToCheck / CUB);
             horzWallContent = map[index_y][index_x];
@@ -127,8 +127,8 @@ void castRay(t_rays *rays, int i)
             // found a wall hit
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
-           // if (xToCheck <= 0 || xToCheck > map_clumns * CUB || yToCheck <= 0 || yToCheck > map_rows * CUB)
-		    //    return ;
+           if (xToCheck <= 0 || xToCheck > map_clumns * CUB || yToCheck <= 0 || yToCheck > map_rows * CUB)
+		       return ;
             int index_x = (int)floor(xToCheck / CUB);
             int index_y = (int)floor(yToCheck / CUB);
 
@@ -174,6 +174,7 @@ void castRay(t_rays *rays, int i)
 
 void castAllRays(t_rays *rays, int draw)
 {
+    //printf("hamade");
     rayangle = rotationangle - (FOV / 2);
     for (int i = 0; i < width; i++)
     {

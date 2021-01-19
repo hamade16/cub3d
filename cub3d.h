@@ -167,7 +167,7 @@ int		retourne(int i, char **res);
 int		get_next_line(int fd, char **line);
 int	ft_strcmp(const char *s1, const char *s2);
 int	ft_isdigit(int c);
-void  drawcub(float x, float y, int color);
+void  drawcub(float x, float y, int width, int height, int color);
 void	vision_N(int color);
 void	vision_S(int color);
 void	vision_W(int color);
@@ -213,4 +213,6 @@ int			set_map(char *cubfile, int fd, char *line);
 char        *ft_strdup(const char *src);
 char	    *ft_strtrim(char const *s1, char const *set);
 int         ft_toupper(int c);
+int         ft_tolower(int c);
+int		    on_exit(void);
 #endif

@@ -135,8 +135,8 @@ int			setup(char *cubfile)
 			nr = set_resolution(chkparams(ft_split(line, ' ')));
 		else if (checkforin(line[0], "NSWE"))
 			nr = set_texprite(chkparams(ft_split(ft_resps(line, ' ', 1), ' ')));
-		else if (line[0] == 'F' || line[0] == 'C')
-			nr = set_colors(line[0], chkparams(ft_split(clearspc(line), ' ')));
+		/*else if (line[0] == 'F' || line[0] == 'C')
+			nr = set_colors(line[0], chkparams(ft_split(clearspc(line), ' ')));*/
 		else if (line[0] == '1')
 			nr = set_map(cubfile, fd, line);
 		else if (line[0])

@@ -42,6 +42,13 @@ int		throwerror(char *error)
 	free(error);
 	return (on_exit());
 }
+
+int		on_exit(void)
+{
+	exit(retfreetwo(map, 1));
+	return(-1);
+}
+
 /*
 void	defaultsets(void)
 {

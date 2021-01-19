@@ -45,8 +45,8 @@ void            my_mlx_pixel_put(int x,int y, int color, void *img)
 {
     int     me;
 	int *tmp;
-    // if (x < 0 || x >= map_clumns * CUB || y < 0 || y >= map_rows * CUB)
-	// 	return ;
+    if (x < 0 || x >= width || y < 0 || y >= height)
+		return ;
     tmp = (int*)mlx_get_data_addr(img, &me, &me, &me);
     tmp[x + (y * width)] = color;
 }
