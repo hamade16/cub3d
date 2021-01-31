@@ -96,32 +96,40 @@ int  keyReleased(int key)
 		walkdirection = 0;
 	return 0;
 }
-
-int	draw_txtur(	int *tmp, int txt_width)
+/*
+int	draw_txtur(int txt_width)
 {
 
 	//printf("abc\n");
 	return tmp[(int)texturoffsetX + ((int)texturoffsetY * txt_width)];
-}
+}*/
 
+int wall_to_texture(int j, int i)
+{
+	int y;
+	y = j + (wallstripheight / 2) - (height /2);
+	return (y * (CUB/ wallstripheight));
+}
 void		render_3d(t_rays *rays)
 {
 	int i;
 	int j;
 	t_txt txt;
-	int *tmp;
 	void *img_txt;
 	int me;
-
+	int *textur;
+	int texture_start;
 	
-	img_txt = (char *)mlx_xpm_file_to_image(mlx_ptr, "./floor_1.xpm", &txt.txt_width, &txt.txt_height);
-	tmp = (int*)mlx_get_data_addr(img_txt, &me, &me, &me);
-	i = -1;
+	//img_txt = (char *)mlx_xpm_file_to_image(mlx_ptr, t_txt.no_img, &txt.txt_width, &txt.txt_height);
+	//tmp = (int*)mlx_get_data_addr(img_txt, &me, &me, &me);
+	i = 0;
+	
+	//printf()
 	txt.txt_width = 64;
 	txt.txt_height = 64;
 	distanceprojplane = ((width / 2) / tan(FOV / 2));
-	while (++i < width)
-	{
+	while (i < width)
+	{textur = fetch_texture(i);
 		perpdistance = rays[i].distance * cos(rays[i].rayAngle - rotationangle);
 		projectwallheight = (CUB / perpdistance) * distanceprojplane;
 		wallstripheight = (int)projectwallheight;
@@ -129,24 +137,35 @@ void		render_3d(t_rays *rays)
 		walltoppixel = walltoppixel < 0 ? 0 : walltoppixel;
 		wallbottompixel = (height / 2) + (wallstripheight / 2);
 		wallbottompixel = wallbottompixel > height ? height : wallbottompixel;
+		
 		if (rays[i].wasHitVertical)
-			texturoffsetX = (int)rays[i].wallHitY / CUB;
-		else 
-			texturoffsetX = (int)rays[i].wallHitX / CUB;
+		{
+			texture_start = fmod(rays[i].wallHitY ,CUB);
+			//ft_putchar('a');
+		}
+		else
+			texture_start = fmod(rays[i].wallHitX,CUB);
 		j = -1;
+
         while (++j < height)
         {
+				int n = (wall_to_texture(j,i) * CUB) + texture_start;
+				if (n >= 4096)
+					n = 4095;
+				if (n < 0)
+					n = 0;
             if (j < walltoppixel)
                 my_mlx_pixel_put(i, j, 0x7f7f7f, img_ptr);
             else if (j >= walltoppixel && j <= wallbottompixel)
             {
 				distancefromtop = j + (wallstripheight / 2) - (height / 2);
 				texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
-                my_mlx_pixel_put(i, j, draw_txtur(tmp, txt.txt_width), img_ptr);
+                my_mlx_pixel_put(i, j, textur[n] , img_ptr);
             }
             else if (j > wallbottompixel)
                 my_mlx_pixel_put(i, j, 0x7f7f7f, img_ptr);
 		}
+		i++;
 	}
 }
 
@@ -193,7 +212,7 @@ int cub3d()
 	int k;
 
 	setup2();
-	mlx_ptr = mlx_init();
+	
 	win_ptr = mlx_new_window(mlx_ptr, width, height, "cub3d");
 	img_ptr = mlx_new_image(mlx_ptr, width, height);
 	render();
@@ -212,15 +231,8 @@ int main(int argc, char *argv[])
 	int i;
 
 	i = 0;
-	//fd = open(argv[1], O_RDONLY); 
-	//map_file();
+	mlx_ptr = mlx_init();
 	setup(argv[1]);
-	// while (map[i])
-	// {
-	// 	printf("%s|\n", map[i]);
-	// 	i++;
-	// }
-	//printf("%f | %f", xplayer, yplayer);
 	cub3d();
 	
 }

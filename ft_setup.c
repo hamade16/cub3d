@@ -92,24 +92,23 @@ static int	set_colors(char fp, char **params)
 
 static int	set_texprite(char **params)
 {
-	if (ft_strncmp(params[0], "NO", 3) == 0 && !t_tex.no_img
+	
+	if (ft_strncmp(params[0], "NO", 3) == 0 
 		&& validfile(params[1], "xpm"))
-		t_tex.no_img = ft_strdup(params[1]);
-	else if (ft_strncmp(params[0], "SO", 3) == 0 && !t_tex.so_img
-		&& validfile(params[1], "xpm"))
-		t_tex.so_img = ft_strdup(params[1]);
-	else if (ft_strncmp(params[0], "WE", 3) == 0 && !t_tex.we_img
-		&& validfile(params[1], "xpm"))
-		t_tex.we_img = ft_strdup(params[1]);
-	else if (ft_strncmp(params[0], "EA", 3) == 0 && !t_tex.ea_img
-		&& validfile(params[1], "xpm"))
-		t_tex.ea_img = ft_strdup(params[1]);
+			fetch_no(params[1]);
+			//t_tex.no_img = ft_strdup(params[1]);
+	else if (ft_strncmp(params[0], "SO", 3) == 0 && validfile(params[1], "xpm"))
+			fetch_so(params[1]);
+	else if (ft_strncmp(params[0], "WE", 3) == 0 && validfile(params[1], "xpm"))
+			fetch_we(params[1]);
+	else if (ft_strncmp(params[0], "EA", 3) == 0 &&validfile(params[1], "xpm"))
+			fetch_ea(params[1]);
 	else if (ft_strncmp(params[0], "S", 2) == 0 && !t_sprt.sp_file
 		&& validfile(params[1], "xpm"))
-		t_sprt.sp_file = ft_strdup(params[1]);
+			ft_putchar('c');
 	else if (ft_strncmp(params[0], "S1", 3) == 0 && !t_sprt.sp_file1
 		&& validfile(params[1], "xpm"))
-		t_sprt.sp_file1 = ft_strdup(params[1]);
+			ft_putchar('c');
 	else
 	{
 		return (retfreetwo(params,
@@ -145,4 +144,17 @@ int			setup(char *cubfile)
 			break ;
 	}
 	return ((nr == -1) ? -1 : 1);
+}
+
+int *fetch_texture(int i)
+{
+    if (rays[i].isRayFacingUp && !rays[i].wasHitVertical)
+        return (g_texture.north_texture);
+    if (rays[i].isRayFacingDown && !rays[i].wasHitVertical)
+        return (g_texture.north_texture);
+    if (rays[i].isRayFacingLeft && rays[i].wasHitVertical)
+        return (g_texture.north_texture);
+    if (rays[i].isRayFacingRight && rays[i].wasHitVertical)
+        return (g_texture.north_texture);
+    return (g_texture.north_texture);
 }

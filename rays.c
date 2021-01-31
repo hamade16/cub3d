@@ -35,10 +35,10 @@ void castRay(t_rays *rays, int i)
 
     int isRayFacingRight = rayangle < 0.5 * M_PI || rayangle > 1.5 * M_PI;
     int isRayFacingLeft = !isRayFacingRight;
-    
     float xintercept, yintercept;
     float xstep, ystep;
 
+    
     ///////////////////////////////////////////
     // HORIZONTAL RAY-GRID INTERSECTION CODE
     ///////////////////////////////////////////

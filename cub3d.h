@@ -28,6 +28,10 @@
 # define CUB 64
 # define WIDTH2 = width * CUB
 # define FOV 60 * (M_PI / 180)
+# define NO 0
+# define SO 1
+# define NO 0
+
 
 
 double angle;
@@ -82,6 +86,11 @@ float     texturoffsetX;
 float     texturoffsetY;
 float       distancefromtop;
 void        *g_freetmp;
+int         isRayFacingDown;
+int         isRayFacingUp;
+int         isRayFacingRight;
+int         isRayFacingLeft;
+int        *tmp;
 //
 #include <stdlib.h>
 #include <string.h>
@@ -106,22 +115,25 @@ typedef struct s_rays
     int wallHitContent;
 }               t_rays;
 
-struct          s_texture
+
+
+typedef struct    s_texture
 {
-    char        *no_img;
-    char        *so_img;
-    char        *we_img;
-    char        *ea_img;
-    int         color;
-}               t_tex;
+    int            *north_texture;
+    int            *south_texture;
+    int            *east_texture;
+    int            *west_texture;
+}                  t_texture;
 
 typedef struct  s_txt
 {
-
     int         txt_width;
     int         txt_height;
     float       data;
 }               t_txt;
+
+t_texture        g_texture;
+t_txt            g_txt;
 
 struct          s_sprite
 {
@@ -141,7 +153,18 @@ struct          s_player
     float       ang;
 }               t_player;
 
+typedef         struct s_texturedata
+{
+    char                *path;
+    void                *img;
+    int                 *addr;
+}                       t_texdata;
 
+void fetch_we(char *str);
+void fetch_ea(char *str);
+void fetch_so(char *str);
+int *fetch_texture(int i);
+void fetch_no(char *str);
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
 int	ft_atoi(const char *str);
@@ -215,4 +238,5 @@ char	    *ft_strtrim(char const *s1, char const *set);
 int         ft_toupper(int c);
 int         ft_tolower(int c);
 int		    on_exit(void);
+void        v_vision();
 #endif
