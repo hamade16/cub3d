@@ -146,14 +146,14 @@ int			setup(char *cubfile)
 	return ((nr == -1) ? -1 : 1);
 }
 
-int *fetch_texture(int i)
+int *fetch_texture(int i, t_rays *rays)
 {
     if (rays[i].isRayFacingUp && !rays[i].wasHitVertical)
         return (g_texture.north_texture);
     if (rays[i].isRayFacingDown && !rays[i].wasHitVertical)
-        return (g_texture.north_texture);
+        return (g_texture.south_texture);
     if (rays[i].isRayFacingLeft && rays[i].wasHitVertical)
-        return (g_texture.north_texture);
+        return (g_texture.east_texture);
     if (rays[i].isRayFacingRight && rays[i].wasHitVertical)
         return (g_texture.north_texture);
     return (g_texture.north_texture);

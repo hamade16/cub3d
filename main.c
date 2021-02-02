@@ -129,7 +129,8 @@ void		render_3d(t_rays *rays)
 	txt.txt_height = 64;
 	distanceprojplane = ((width / 2) / tan(FOV / 2));
 	while (i < width)
-	{textur = fetch_texture(i);
+	{
+		textur = fetch_texture(i, rays);
 		perpdistance = rays[i].distance * cos(rays[i].rayAngle - rotationangle);
 		projectwallheight = (CUB / perpdistance) * distanceprojplane;
 		wallstripheight = (int)projectwallheight;
@@ -159,7 +160,7 @@ void		render_3d(t_rays *rays)
             else if (j >= walltoppixel && j <= wallbottompixel)
             {
 				distancefromtop = j + (wallstripheight / 2) - (height / 2);
-				texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
+				//texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
                 my_mlx_pixel_put(i, j, textur[n] , img_ptr);
             }
             else if (j > wallbottompixel)

@@ -163,7 +163,7 @@ typedef         struct s_texturedata
 void fetch_we(char *str);
 void fetch_ea(char *str);
 void fetch_so(char *str);
-int *fetch_texture(int i);
+int *fetch_texture(int i, t_rays *rays);
 void fetch_no(char *str);
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
