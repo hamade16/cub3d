@@ -130,7 +130,7 @@ void		render_3d(t_rays *rays)
 	distanceprojplane = ((width / 2) / tan(FOV / 2));
 	while (i < width)
 	{
-		textur = fetch_texture(i, rays);
+		textur = fetch_texture(i);
 		perpdistance = rays[i].distance * cos(rays[i].rayAngle - rotationangle);
 		projectwallheight = (CUB / perpdistance) * distanceprojplane;
 		wallstripheight = (int)projectwallheight;
@@ -160,7 +160,8 @@ void		render_3d(t_rays *rays)
             else if (j >= walltoppixel && j <= wallbottompixel)
             {
 				distancefromtop = j + (wallstripheight / 2) - (height / 2);
-				//texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
+				texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
+
                 my_mlx_pixel_put(i, j, textur[n] , img_ptr);
             }
             else if (j > wallbottompixel)
@@ -188,15 +189,16 @@ void        square(int x, int y, float width, int color)
 
 void		render()
 {
-	t_rays rays[width];
+	
 	mlx_clear_window(mlx_ptr, win_ptr);
 	//player_p();
 	vision();
-	castAllRays(rays, 0);
+	castAllRays(0);
 	render_3d(rays);
+	calcul_sprite();
 	map2d();
 	square(xplayer * 0.2, yplayer * 0.2, 10 * 0.2, 0xFF0000);
-	castAllRays(rays, 1);
+	castAllRays(1);
 	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0,  0);
 }
 /*

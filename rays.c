@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houbeid <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: houbeid <houbeid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:05:23 by houbeid           #+#    #+#             */
-/*   Updated: 2020/12/24 15:05:25 by houbeid          ###   ########.fr       */
+/*   Updated: 2021/02/03 23:09:40 by houbeid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ float       normalized_angle(float angle)
 	return (angle);
 }
 
-void castRay(t_rays *rays, int i)
+void castRay(int i)
 {
     rayangle = normalized_angle(rayangle);
     
@@ -38,8 +38,7 @@ void castRay(t_rays *rays, int i)
     float xintercept, yintercept;
     float xstep, ystep;
 
-    // rays[i].wallHitX = 0;
-    // rays[i].wallHitY = 0;
+    
     ///////////////////////////////////////////
     // HORIZONTAL RAY-GRID INTERSECTION CODE
     ///////////////////////////////////////////
@@ -77,7 +76,7 @@ void castRay(t_rays *rays, int i)
             // found a wall hit
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
-           if (xToCheck >= 0 && xToCheck < map_clumns * CUB && yToCheck >= 0 && yToCheck < map_rows * CUB) {
+            if (xToCheck >= 0 && xToCheck < map_clumns * CUB && yToCheck >= 0 && yToCheck < map_rows * CUB) {
                 int index_x = (int)floor(xToCheck / CUB);
                 int index_y = (int)floor(yToCheck / CUB);
                 horzWallContent = map[index_y][index_x];
@@ -125,9 +124,7 @@ void castRay(t_rays *rays, int i)
             // found a wall hit
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
-        //    if (xToCheck < 0 || xToCheck > map_clumns * CUB || yToCheck < 0 || yToCheck > map_rows * CUB)
-		//        return ;
-           if (xToCheck >= 0 && xToCheck < map_clumns * CUB && yToCheck >= 0 && yToCheck < map_rows * CUB) {
+          if (xToCheck >= 0 && xToCheck < map_clumns * CUB && yToCheck >= 0 && yToCheck < map_rows * CUB) {
                 int index_x = (int)floor(xToCheck / CUB);
                 int index_y = (int)floor(yToCheck / CUB);
 
@@ -136,8 +133,11 @@ void castRay(t_rays *rays, int i)
                 break;
             }
         }
-        nextVertTouchX += xstep;
-        nextVertTouchY += ystep;
+        else
+           // printf("V %f\n", xstep);
+
+            nextVertTouchX += xstep;
+            nextVertTouchY += ystep;
     }
     // Calculate both horizontal and vertical hit distances and choose the smallest one
     float horzHitDistance = foundHorzWallHit
@@ -146,8 +146,7 @@ void castRay(t_rays *rays, int i)
     float vertHitDistance = foundVertWallHit
         ? distancebetweenpoints(xplayer, yplayer, vertWallHitX, vertWallHitY)
         : INT_MAX;
-    // printf("dis %f %f\n", horzHitDistance, vertHitDistance);
-    
+
     if (horzHitDistance < vertHitDistance) {
         rays[i].distance = horzHitDistance;
         rays[i].wallHitX = horzWallHitX;
@@ -168,18 +167,16 @@ void castRay(t_rays *rays, int i)
     rays[i].isRayFacingRight = isRayFacingRight;
 }
 
-void castAllRays(t_rays *rays, int draw)
+void castAllRays(int draw)
 {
     //printf("hamade");
     rayangle = rotationangle - (FOV / 2);
     for (int i = 0; i < width; i++)
     {
         if (!draw)
-            castRay(rays, i);
-        else {
+            castRay(i);
+        else
             draw_line(rays[i].wallHitX,rays[i].wallHitY,xplayer,yplayer);
-        }
         rayangle += FOV / (width);
     }
-    write(1, "\n", 1);
 }

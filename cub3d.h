@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houbeid <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: houbeid <houbeid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 12:03:36 by houbeid           #+#    #+#             */
-/*   Updated: 2020/11/29 12:03:45 by houbeid          ###   ########.fr       */
+/*   Updated: 2021/02/03 23:08:16 by houbeid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
-# include <mlx.h>
+# include "./minilibx/mlx.h"
 
 # define FALSE 0
 # define TRUE 1
 # define CUB 64
 # define WIDTH2 = width * CUB
 # define FOV 60 * (M_PI / 180)
-# define NO 0
-# define SO 1
-# define NO 0
 
 
 
@@ -135,11 +132,22 @@ typedef struct  s_txt
 t_texture        g_texture;
 t_txt            g_txt;
 
-struct          s_sprite
+typedef struct          s_sprite
 {
-        char    *sp_file;
-        char    *sp_file1;
+    int			x;
+	int			y;
+	int			width;
+	int			height;
+	double		size;
+	double		angle;
+	double		it_x;
+	double		it_y;
+	double		distance;
 }               t_sprt;
+
+int             g_nbr_sprite;
+int             *sp_file;
+t_sprt          g_sprt[10000];
 
 struct          s_map 
 {
@@ -153,6 +161,7 @@ struct          s_player
     float       ang;
 }               t_player;
 
+t_rays rays[INT_MAX];
 typedef         struct s_texturedata
 {
     char                *path;
@@ -160,10 +169,12 @@ typedef         struct s_texturedata
     int                 *addr;
 }                       t_texdata;
 
+
+void fetch_sp(char *str);
 void fetch_we(char *str);
 void fetch_ea(char *str);
 void fetch_so(char *str);
-int *fetch_texture(int i, t_rays *rays);
+int *fetch_texture(int iex);
 void fetch_no(char *str);
 void	ft_putchar(char c);
 //int main(int argc, char *argv[]);
@@ -197,8 +208,8 @@ void	vision_W(int color);
 void	vision_E(int color);
 void	vision();
 void	H_intersection(int color);
-void castAllRays(t_rays *rays, int draw);
-void    castRay(t_rays *rays, int stripId);
+void castAllRays(int draw);
+void    castRay(int stripId);
 float       normalized_angle(float angle);
 float       distancebetweenpoints(float x1, float y1, float x2, float y2);
 void        drw_line(float x, float y, int color);
@@ -207,7 +218,6 @@ void		render();
 int         haswallat(float newplayerx, float newplayery);
 void        setup2();
 void        draw_line(float x_one,float y_one,float x_zero,float y_zero);
-t_rays      *rays;
 int	        draw_txtur(	int *tmp,int txt_width);
 int			setup(char *cubfile);
 static char	**chkparams(char **pr);
@@ -239,4 +249,6 @@ int         ft_toupper(int c);
 int         ft_tolower(int c);
 int		    on_exit(void);
 void        v_vision();
+void		calcul_sprite(void);
+void		sort_sprite(void);
 #endif

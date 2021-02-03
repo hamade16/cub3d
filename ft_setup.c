@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlabrayj <mlabrayj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: houbeid <houbeid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 08:37:28 by mlabrayj          #+#    #+#             */
-/*   Updated: 2021/01/10 09:05:50 by mlabrayj         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:07:25 by houbeid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,10 @@ static int	set_texprite(char **params)
 			fetch_we(params[1]);
 	else if (ft_strncmp(params[0], "EA", 3) == 0 &&validfile(params[1], "xpm"))
 			fetch_ea(params[1]);
-	else if (ft_strncmp(params[0], "S", 2) == 0 && !t_sprt.sp_file
+	else if (ft_strncmp(params[0], "S", 2) == 0
 		&& validfile(params[1], "xpm"))
-			ft_putchar('c');
-	else if (ft_strncmp(params[0], "S1", 3) == 0 && !t_sprt.sp_file1
-		&& validfile(params[1], "xpm"))
-			ft_putchar('c');
+		fetch_sp(params[1]);
+			
 	else
 	{
 		return (retfreetwo(params,
@@ -146,7 +144,7 @@ int			setup(char *cubfile)
 	return ((nr == -1) ? -1 : 1);
 }
 
-int *fetch_texture(int i, t_rays *rays)
+int *fetch_texture(int i)
 {
     if (rays[i].isRayFacingUp && !rays[i].wasHitVertical)
         return (g_texture.north_texture);
@@ -156,5 +154,5 @@ int *fetch_texture(int i, t_rays *rays)
         return (g_texture.east_texture);
     if (rays[i].isRayFacingRight && rays[i].wasHitVertical)
         return (g_texture.north_texture);
-    return (g_texture.north_texture);
+    return (g_texture.west_texture);
 }
