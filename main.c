@@ -61,7 +61,7 @@ void  map2d()
 			
 			
 		}
-			// write(1, "\n", 1);
+			
 
 	}
 }
@@ -96,13 +96,6 @@ int  keyReleased(int key)
 		walkdirection = 0;
 	return 0;
 }
-/*
-int	draw_txtur(int txt_width)
-{
-
-	//printf("abc\n");
-	return tmp[(int)texturoffsetX + ((int)texturoffsetY * txt_width)];
-}*/
 
 int wall_to_texture(int j, int i)
 {
@@ -110,7 +103,7 @@ int wall_to_texture(int j, int i)
 	y = j + (wallstripheight / 2) - (height /2);
 	return (y * (CUB/ wallstripheight));
 }
-void		render_3d(t_rays *rays)
+void		render_3d()
 {
 	int i;
 	int j;
@@ -120,11 +113,8 @@ void		render_3d(t_rays *rays)
 	int *textur;
 	int texture_start;
 	
-	//img_txt = (char *)mlx_xpm_file_to_image(mlx_ptr, t_txt.no_img, &txt.txt_width, &txt.txt_height);
-	//tmp = (int*)mlx_get_data_addr(img_txt, &me, &me, &me);
-	i = 0;
 	
-	//printf()
+	i = 0;
 	txt.txt_width = 64;
 	txt.txt_height = 64;
 	distanceprojplane = ((width / 2) / tan(FOV / 2));
@@ -159,8 +149,6 @@ void		render_3d(t_rays *rays)
                 my_mlx_pixel_put(i, j, 0x7f7f7f, img_ptr);
             else if (j >= walltoppixel && j <= wallbottompixel)
             {
-				distancefromtop = j + (wallstripheight / 2) - (height / 2);
-				texturoffsetY = distancefromtop * ((float)txt.txt_height / wallstripheight);
 
                 my_mlx_pixel_put(i, j, textur[n] , img_ptr);
             }
@@ -171,44 +159,18 @@ void		render_3d(t_rays *rays)
 	}
 }
 
-void        square(int x, int y, float width, int color)
-{
-    int     i;
-    int     j;
-
-    i = -1;
-    while (++i < width)
-    {
-        j = -1;
-        while (++j < width)
-        {
-            my_mlx_pixel_put((x + j), (y + i), color, img_ptr);
-        }
-    }
-}
-
 void		render()
 {
 	
 	mlx_clear_window(mlx_ptr, win_ptr);
-	//player_p();
 	vision();
 	castAllRays(0);
 	render_3d(rays);
 	calcul_sprite();
 	map2d();
-	square(xplayer * 0.2, yplayer * 0.2, 10 * 0.2, 0xFF0000);
 	castAllRays(1);
 	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0,  0);
 }
-/*
-int         moove()
-{
-	mlx_hook(win_ptr, 1, (2L<<2), keypressed, (void*)0);
-	mlx_hook(win_ptr, 2, (2L<<2), keyReleased, (void*)0);
-	render();
-	return (0);
-}*/
 
 int cub3d()
 {
@@ -219,8 +181,6 @@ int cub3d()
 	win_ptr = mlx_new_window(mlx_ptr, width, height, "cub3d");
 	img_ptr = mlx_new_image(mlx_ptr, width, height);
 	render();
-	//map2d();
-	//mlx_loop_hook(mlx_ptr, moove, (void*)0);
 	mlx_hook(win_ptr, 2, (2L<<2), keypressed, (void*)0);
 	mlx_hook(win_ptr, 3, (2L<<2), keyReleased, (void*)0);
 	mlx_loop(mlx_ptr);

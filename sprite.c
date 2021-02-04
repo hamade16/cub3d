@@ -32,6 +32,7 @@ void		count_sprite(void)
 	int		j;
 
 	i = 0;
+	g_nbr_sprite = 0;
 	while (i < map_rows)
 	{
 		j = 0;
@@ -84,6 +85,7 @@ void		draw_sprite(int i)
 
 	j = 0;
 	color = 0;
+	printf("%d\n", i);
 	while (j < (int)g_sprt[i].size)
 	{
 		k = 0;

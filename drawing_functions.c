@@ -50,29 +50,3 @@ void            my_mlx_pixel_put(int x,int y, int color, void *img)
     tmp = (int*)mlx_get_data_addr(img, &me, &me, &me);
     tmp[x + (y * width)] = color;
 }
-
-void	drw_line(float x, float y, int color)
-{
-    t_point p0;
-	int	dx;
-	int	dy;
-	float	steps;
-	float	x_inc;
-	float	y_inc;
-	float	i;
-
-    p0.x = xplayer;
-    p0.y = yplayer;
-    dx = x - p0.x;
-    dy = y - p0.y;
-    steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-    x_inc = dx / steps;
-    y_inc = dy / steps;
-	i = -1;
-	while (++i <= steps - 1)
-	{
-		my_mlx_pixel_put(p0.x, p0.y , color, img_ptr);
-		p0.x += x_inc;
-		p0.y += y_inc;
-	}
-}

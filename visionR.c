@@ -16,8 +16,8 @@ void setup2()
 {
     turndirection = 0;
     walkdirection = 0;
-    walkspeed = CUB / 6;
-    turnspeed = 4 * (M_PI / 180);
+    walkspeed = CUB / 4;
+    turnspeed = 7 * (M_PI / 180);
 
 }
 
